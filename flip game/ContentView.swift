@@ -87,7 +87,12 @@ struct ContentView: View {
                                     .foregroundColor(.black.opacity(0.5))
                                     .cornerRadius(50)
                                 NavigationLink{
-                                    congratulation()
+                                    if Moves == 6{
+                                        congratulation()
+                                    }else {
+                                       oops()
+                                    }
+                                        
                                 }label: {
                                     Text("submit")
                                         .font(.largeTitle)
