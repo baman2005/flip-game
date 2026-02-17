@@ -15,6 +15,7 @@ struct cardmodel: Identifiable {
 struct ContentView: View {
     @State private var cards: [cardmodel] = []
     @State private var selection1: Int? = nil
+    @State private var Moves: Int = 0
     
     let cardnames = ["a1", "a5", "a2" ]
     let columns = [GridItem(.flexible(minimum: 80, maximum: 180)),
@@ -38,6 +39,7 @@ struct ContentView: View {
                                    .bold()
                                 Button{
                                     restart()
+                                    Moves = 0
                                 } label: {
                                     Image(systemName: "restart")
                                            .bold()
@@ -57,15 +59,28 @@ struct ContentView: View {
                                       .background(Color.white)
                               }else{
                                   RoundedRectangle(cornerRadius: 10)
-                                      .fill(Color.blue)
+                                      .fill(Color.white.opacity(0.6))
                               }
                             
                           }.frame(height: 180)
                               .onTapGesture {
                                   handlecardtap(index: index)
+                                  Moves += 1
                               }
                       }
                   }
+                   ZStack{
+                       Rectangle()
+                           .frame(width: 300, height: 50)
+                           .foregroundColor(.black.opacity(0.5))
+                           .cornerRadius(50)
+                       VStack{
+                           Text("Moves: \(Moves)")
+                               .font(.largeTitle)
+                               .foregroundColor(.white)
+                       }
+                     
+                   }
                             ZStack{
                                 Rectangle()
                                     .frame(width: 150, height: 80)
