@@ -16,10 +16,9 @@ struct ContentView: View {
     @State private var cards: [cardmodel] = []
     @State private var selection1: Int? = nil
     
-    let cardnames = ["a1", "a2", "a3", "a4", "a5", "a6"]
-      let columns = [GridItem(.flexible()),
-                     GridItem(.flexible()),
-                     GridItem(.flexible()) ]
+    let cardnames = ["a1", "a5", "a2" ]
+    let columns = [GridItem(.flexible(minimum: 80, maximum: 180)),
+                     GridItem(.flexible(minimum: 80, maximum: 180)) ]
     init() {
         _cards = State(initialValue: newcard())
     }
@@ -27,45 +26,66 @@ struct ContentView: View {
         
                 NavigationStack {
                     
-                   VStack {
-                       HStack{
-                           Text("Memory Game")
-                              .font(.largeTitle)
-                              .padding()
-                              .bold()
-                           Button{
-                               restart()
-                           } label: {
-                               Image(systemName: "restart")
-                                      .bold()
-                                      .font(.largeTitle)
-                                      .foregroundStyle(Color.black)
-                           }
-                       }
-             LazyVGrid(columns: columns) {
-                 ForEach(cards.indices, id: \.self) { index in
-                     ZStack{
-                         if cards[index].isfaceup || cards[index].ismatched{
-                             Image(cards[index].name)
-                                 .resizable()
-                                 .scaledToFit()
-                                 .padding(10)
-                                 .background(Color.white)
-                         }else{
-                             RoundedRectangle(cornerRadius: 10)
-                                 .fill(Color.red)
-                         }
-                       
-                     }.frame(height: 180)
-                         .onTapGesture {
-                             handlecardtap(index: index)
-                         }
-                 }
-             }
-            
-                   }.padding(10)
+                    ZStack{
+                        LinearGradient(gradient: Gradient(colors: [.blue, .purple, .pink]), startPoint: .top, endPoint: .bottom)
+                            .edgesIgnoringSafeArea(.all)
+                        VStack {
+                            Spacer()
+                            HStack{
+                                Text("Memory Game")
+                                   .font(.largeTitle)
+                                   .padding()
+                                   .bold()
+                                Button{
+                                    restart()
+                                } label: {
+                                    Image(systemName: "restart")
+                                           .bold()
+                                           .font(.largeTitle)
+                                           .foregroundStyle(Color.black)
+                                }
+                            }
+                            Spacer()
+                  LazyVGrid(columns: columns) {
+                      ForEach(cards.indices, id: \.self) { index in
+                          ZStack{
+                              if cards[index].isfaceup || cards[index].ismatched{
+                                  Image(cards[index].name)
+                                      .resizable()
+                                      .scaledToFit()
+                                      .padding(10)
+                                      .background(Color.white)
+                              }else{
+                                  RoundedRectangle(cornerRadius: 10)
+                                      .fill(Color.blue)
+                              }
+                            
+                          }.frame(height: 180)
+                              .onTapGesture {
+                                  handlecardtap(index: index)
+                              }
+                      }
+                  }
+                            ZStack{
+                                Rectangle()
+                                    .frame(width: 150, height: 80)
+                                    .foregroundColor(.black.opacity(0.5))
+                                    .cornerRadius(50)
+                                NavigationLink{
+                                    congratulation()
+                                }label: {
+                                    Text("submit")
+                                        .font(.largeTitle)
+                                        .foregroundColor(.white)
+                                }
+                            }
+                            Spacer()
+                        }.padding(10)
+     //                        .background(.pink.opacity(0.4))
+                             .ignoresSafeArea()
+                    }
            
-        }
+                }.toolbar(.hidden)
         
         
         }
